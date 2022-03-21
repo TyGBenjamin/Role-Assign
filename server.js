@@ -15,29 +15,29 @@ const output = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRender");
 
-let managerCounter;
+let managerCounter = 0;
 
 const teamMembers = {
   Manager: [
     {
       type: "input",
-      message: "What is the manager's name? ",
+      message: "Name of manager? ",
       name: "managerName",
     },
     {
       type: "input",
-      message: "What is the manager's id? ",
+      message: "ID of manager? ",
       name: "managerId",
     },
 
     {
       type: "input",
-      message: "What is the manager's email? ",
+      message: "Email of manager? ",
       name: "managerEmail",
     },
     {
       type: "input",
-      message: "What is the manager's office number? ",
+      message: "What is thier office number? ",
       name: "officeNumber",
     },
   ],
@@ -45,23 +45,23 @@ const teamMembers = {
   Engineer: [
     {
       type: "input",
-      message: "What is the engineer's name? ",
+      message: "What is their name? ",
       name: "engineerName",
     },
     {
       type: "input",
-      message: "What is the engineer's id? ",
+      message: "What the ID of the engineer? ",
       name: "engineerId",
     },
 
     {
       type: "input",
-      message: "What is the engineer's email? ",
+      message: "Email of engineer? ",
       name: "engineerEmail",
     },
     {
       type: "input",
-      message: "What is the engineer's Github username? ",
+      message: "Github username of engineer? ",
       name: "Github",
     },
   ],
@@ -69,23 +69,23 @@ const teamMembers = {
   Intern: [
     {
       type: "input",
-      message: "What is the intern's name? ",
+      message: "name of intern? ",
       name: "internName",
     },
     {
       type: "input",
-      message: "What is the intern's id? ",
+      message: "ID of intern? ",
       name: "internId",
     },
 
     {
       type: "input",
-      message: "What is the intern's email? ",
+      message: "Email of intern? ",
       name: "internEmail",
     },
     {
       type: "input",
-      message: "What is the intern's school? ",
+      message: "School of intern? ",
       name: "school",
     },
   ],
@@ -114,51 +114,121 @@ function addRole() {
       {
         type: "list",
         message: "Choose the employee's role:",
-        name: "employeeChoice",
+        name: "select",
         choices: ["Manager", "Engineer", "Intern"],
       },
     ])
     .then((answer) => {
-      if (answer.employeeChoice === "Manager" && managerCounter < 1) {
-        managerCounter++;
-        // console.log("hey boss")
-        inquirer.prompt(teamMembers.Manager).then((results) => {
-          const manager = new Manager(
-            results.managerName,
-            results.managerId,
-            results.managerEmail,
-            results.officeNumber
-          );
-          Team.push(manager);
-          start();
-        });
-      } else if (answer.employeeChoice === "Engineer") {
-        inquirer.prompt(teamMembers.Engineer).then((results) => {
-          const engineer = new Engineer(
-            results.engineerName,
-            results.engineerId,
-            results.engineerEmail,
-            results.Github
-          );
-          Team.push(engineer);
+      switch (answer.select) {
+        case "Manager":
+          if (managerCounter < 1) managerCounter++;
+          mangerSwitch();
+          break;
 
-          start();
-        });
-      } else if (answer.employeeChoice === "Intern") {
-        inquirer.prompt(teamMembers.Intern).then((results) => {
-          const intern = new Intern(
-            results.internName,
-            results.internId,
-            results.internEmail,
-            results.school
-          );
-          Team.push(intern);
-          start();
-        });
-      } else {
-        start();
+        case "Engineer":
+          engineerSwitch();
+          break;
+
+        case "Intern":
+          internSwitch();
+          break;
+
+        default:
       }
     });
+}
+
+// function addRole() {
+//   inquirer
+//     .prompt([
+//       {
+//         type: "list",
+//         message: "Choose the employee's role:",
+//         name: "employeeChoice",
+//         choices: ["Manager", "Engineer", "Intern"],
+//       },
+//     ])
+//     .then((answer) => {
+//       if (answer.employeeChoice === "Manager" && managerCounter < 1) {
+//         managerCounter++;
+//         // console.log("hey boss")
+//         inquirer.prompt(teamMembers.Manager).then((results) => {
+//           const manager = new Manager(
+//             results.managerName,
+//             results.managerId,
+//             results.managerEmail,
+//             results.officeNumber
+//           );
+//           Team.push(manager);
+//           start();
+//         });
+//       } else if (answer.employeeChoice === "Engineer") {
+//         inquirer.prompt(teamMembers.Engineer).then((results) => {
+//           const engineer = new Engineer(
+//             results.engineerName,
+//             results.engineerId,
+//             results.engineerEmail,
+//             results.Github
+//           );
+//           Team.push(engineer);
+
+//           start();
+//         });
+//       } else if (answer.employeeChoice === "Intern") {
+//         inquirer.prompt(teamMembers.Intern).then((results) => {
+//           const intern = new Intern(
+//             results.internName,
+//             results.internId,
+//             results.internEmail,
+//             results.school
+//           );
+//           Team.push(intern);
+//           start();
+//         });
+//       } else {
+//         start();
+//       }
+//     });
+// }
+
+function mangerSwitch() {
+  inquirer.prompt(teamMembers.Manager).then((results) => {
+    const manager = new Manager(
+      results.managerName,
+      results.managerId,
+      results.managerEmail,
+      results.officeNumber
+    );
+    Team.push(manager);
+    start();
+  });
+}
+
+function engineerSwitch() {
+  inquirer.prompt(teamMembers.Engineer).then((results) => {
+    const engineer = new Engineer(
+      results.engineerName,
+      results.engineerId,
+      results.engineerEmail,
+      results.Github
+    );
+    Team.push(engineer);
+
+    start();
+  });
+}
+
+function internSwitch() {
+  inquirer.prompt(teamMembers.Intern).then((results) => {
+    const intern = new Intern(
+      results.internName,
+      results.internId,
+      results.internEmail,
+      results.school
+    );
+    Team.push(intern);
+    start();
+  });
 }
 
 start();
