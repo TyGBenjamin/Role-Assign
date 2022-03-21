@@ -8,15 +8,15 @@ const path = require("path");
 const fs = require("fs");
 const jest = require("jest");
 
-let Team = [];
-
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const output = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRender");
 
 let managerCounter = 0;
+let Team = [];
 
+// Questions used for inquirer prompt
 const teamMembers = {
   Manager: [
     {
@@ -91,6 +91,7 @@ const teamMembers = {
   ],
 };
 
+// This function is what starts the initial prompt for inquirer
 function start() {
   inquirer.prompt(addNew).then((answer) => {
     if (answer.addMember == true) {
@@ -108,6 +109,7 @@ const addNew = {
   choices: ["Yes", "No"],
 };
 
+// Function when a user selects add Role
 function addRole() {
   inquirer
     .prompt([
@@ -137,6 +139,56 @@ function addRole() {
       }
     });
 }
+
+// when a user selects add Manager. the switch method will call this function
+function mangerSwitch() {
+  inquirer.prompt(teamMembers.Manager).then((results) => {
+    const manager = new Manager(
+      results.managerName,
+      results.managerId,
+      results.managerEmail,
+      results.officeNumber
+    );
+    Team.push(manager);
+    start();
+  });
+}
+
+// when a user selects add Engineer. the switch method will call this function
+
+function engineerSwitch() {
+  inquirer.prompt(teamMembers.Engineer).then((results) => {
+    const engineer = new Engineer(
+      results.engineerName,
+      results.engineerId,
+      results.engineerEmail,
+      results.Github
+    );
+    Team.push(engineer);
+
+    start();
+  });
+}
+
+// when a user selects add Intern. the switch method will call this function
+
+function internSwitch() {
+  inquirer.prompt(teamMembers.Intern).then((results) => {
+    const intern = new Intern(
+      results.internName,
+      results.internId,
+      results.internEmail,
+      results.school
+    );
+    Team.push(intern);
+    start();
+  });
+}
+
+start();
+
+// The following block of code is the original idea i had to run the application.
+// this format was then converted to the swicth statements used above
 
 // function addRole() {
 //   inquirer
@@ -190,45 +242,3 @@ function addRole() {
 //       }
 //     });
 // }
-
-function mangerSwitch() {
-  inquirer.prompt(teamMembers.Manager).then((results) => {
-    const manager = new Manager(
-      results.managerName,
-      results.managerId,
-      results.managerEmail,
-      results.officeNumber
-    );
-    Team.push(manager);
-    start();
-  });
-}
-
-function engineerSwitch() {
-  inquirer.prompt(teamMembers.Engineer).then((results) => {
-    const engineer = new Engineer(
-      results.engineerName,
-      results.engineerId,
-      results.engineerEmail,
-      results.Github
-    );
-    Team.push(engineer);
-
-    start();
-  });
-}
-
-function internSwitch() {
-  inquirer.prompt(teamMembers.Intern).then((results) => {
-    const intern = new Intern(
-      results.internName,
-      results.internId,
-      results.internEmail,
-      results.school
-    );
-    Team.push(intern);
-    start();
-  });
-}
-
-start();
