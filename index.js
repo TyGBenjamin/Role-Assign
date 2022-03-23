@@ -37,10 +37,16 @@ const addNew = {
 // This function is what starts the initial prompt for inquirer
 function start() {
   inquirer.prompt(addNew).then((answer) => {
-    if (answer.addMember == true) {
+    if (answer.addMember === true) {
       addRole();
+    } else if (answer.addMember === false) {
+      if (!fs.existsSync(DIST_DIR)) {
+        fs.mkdirSync(DIST_DIR);
+        fs.writeFileSync(distPath, render(teamMembers), "utf-8");
+        process.exit(0);
+      }
     } else {
-      fs.writeFileSync(output, render(Team), "utf-8");
+      fs.writeFileSync(distPath, render(teamMembers), "utf-8");
       process.exit(0);
     }
   });
@@ -276,61 +282,3 @@ const init = () => {
     .then(() => console.log("Successfully wrote to index.html"))
     .catch((err) => console.error(err));
 };
-
-init();
-
-// The following block of code is the original idea i had to run the application.
-// this format was then converted to the swicth statements used above
-
-// function addRole() {
-//   inquirer
-//     .prompt([
-//       {
-//         type: "list",
-//         message: "Choose the employee's role:",
-//         name: "employeeChoice",
-//         choices: ["Manager", "Engineer", "Intern"],
-//       },
-//     ])
-//     .then((answer) => {
-//       if (answer.employeeChoice === "Manager" && managerCounter < 1) {
-//         managerCounter++;
-//         // console.log("hey boss")
-//         inquirer.prompt(teamMembers.Manager).then((results) => {
-//           const manager = new Manager(
-//             results.managerName,
-//             results.managerId,
-//             results.managerEmail,
-//             results.officeNumber
-//           );
-//           Team.push(manager);
-//           start();
-//         });
-//       } else if (answer.employeeChoice === "Engineer") {
-//         inquirer.prompt(teamMembers.Engineer).then((results) => {
-//           const engineer = new Engineer(
-//             results.engineerName,
-//             results.engineerId,
-//             results.engineerEmail,
-//             results.Github
-//           );
-//           Team.push(engineer);
-
-//           start();
-//         });
-//       } else if (answer.employeeChoice === "Intern") {
-//         inquirer.prompt(teamMembers.Intern).then((results) => {
-//           const intern = new Intern(
-//             results.internName,
-//             results.internId,
-//             results.internEmail,
-//             results.school
-//           );
-//           Team.push(intern);
-//           start();
-//         });
-//       } else {
-//         start();
-//       }
-//     });
-// }
