@@ -14,9 +14,6 @@ const jest = require("jest");
 
 // setting paths for data reference
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// const output = path.join(OUTPUT_DIR, "team.html");
-
 const DIST_DIR = path.resolve(__dirname, "path");
 const distPath = path.join(DIST_DIR, "index.html");
 
@@ -82,6 +79,8 @@ function addRole() {
       }
     });
 }
+
+// prompts that run when add Manager is selected
 function addManager() {
   inquirer.prompt([
     {
@@ -120,6 +119,7 @@ function addManager() {
   ]);
 }
 
+// prompts that run when add Engineer is selected
 function addEngineer() {
   inquirer.prompt([
     {
@@ -146,6 +146,7 @@ function addEngineer() {
   ]);
 }
 
+// prompts that run when add Intern is selected
 function addIntern() {
   inquirer.prompt([
     {
@@ -182,39 +183,6 @@ function mangerSwitch() {
       answers.officeNumber
     );
     Team.push(manager);
-    fs.writeFileSync("index.html", generateHTML(results))
-      .then(() => console.log("Successfully wrote to index.html"))
-      .catch((err) => console.error(err));
-
-    const generateHTML = ({
-      managerName,
-      managerId,
-      managerEmail,
-      officeNumber,
-    }) =>
-      `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <div class="container sm-3">
-  <div class="container">
-    <h1 class="display-4">Hi! My name is ${managerName}</h1>
-    <p class="lead"> ID: ${managerId}.</p>
-    <h3> <span class="badge badge-secondary">Assigned Role</span></h3>
-    <ul class="list-group">
-      <li class="list-group-item">My email is ${managerEmail}</li>
-      <li class="list-group-item"> Telephone: ${officeNumber}</li>
-    </ul>
-  </div>
-</div>
-</body>
-</html>`;
-
     start();
   });
 }
@@ -249,36 +217,3 @@ function internSwitch() {
 }
 
 start();
-
-const generateHTML = ({ name, location, github, linkedin }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <div class="container sm-3">
-  <div class="container">
-    <h1 class="display-4">Hi! My name is ${name}</h1>
-    <p class="lead">I am from ${location}.</p>
-    <h3> <span class="badge badge-secondary">Assigned Role</span></h3>
-    <ul class="list-group">
-      <li class="list-group-item">My GitHub username is ${github}</li>
-      <li class="list-group-item">LinkedIn: ${linkedin}</li>
-    </ul>
-  </div>
-</div>
-</body>
-</html>`;
-
-// Bonus using writeFileSync as a promise
-const init = () => {
-  promptUser()
-    // Use writeFileSync method to use promises instead of a callback function
-    .then((answers) => fs.writeFileSync("index.html", generateHTML(answers)))
-    .then(() => console.log("Successfully wrote to index.html"))
-    .catch((err) => console.error(err));
-};
