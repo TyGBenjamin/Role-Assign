@@ -30,13 +30,13 @@ test("Can get name via getName()", () => {
 });
 
 test("Can get id via getId()", () => {
-  const test = 100;
+  const test = 99;
   const e = new Employee("mike", test);
   expect(e.getId()).toBe(test);
 });
 
 test("Can get email via getEmail()", () => {
-  const test = "test@test.com";
+  const test = "tyler@gandy.com";
   const e = new Employee("Mike", 1, test);
   expect(e.getEmail()).toBe(test);
 });

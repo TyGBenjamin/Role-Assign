@@ -7,7 +7,7 @@ test('getRole() should return "Manager"', () => {
 });
 
 test("Can get Office Number from getOfficeNumber()", () => {
-  const test = "GitHub";
+  const test = 999;
   const e = new Manager("Hi", 1, "tyler@tyler.com", test);
   expect(e.getOfficeNumber()).toBe(test);
 });

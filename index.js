@@ -1,6 +1,6 @@
 // Import constructor class and functions
 
-const Employee = require("./lib/Employee");
+const Employee = require("./lib/employee");
 const Manager = require("./lib/manager");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
@@ -64,15 +64,15 @@ function addRole() {
       switch (answer.select) {
         case "Manager":
           if (managerCounter < 1) managerCounter++;
-          mangerSwitch();
+          addManager();
           break;
 
         case "Engineer":
-          engineerSwitch();
+          addEngineer();
           break;
 
         case "Intern":
-          internSwitch();
+          addIntern();
           break;
 
         default:
@@ -82,138 +82,123 @@ function addRole() {
 
 // prompts that run when add Manager is selected
 function addManager() {
-  inquirer.prompt([
-    {
-      type: "input",
-      message: "Name of manager? ",
-      name: "managerName",
-      validate: (answer) => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter a name.";
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Name of manager? ",
+        name: "managerName",
       },
-    },
-    {
-      type: "input",
-      message: "ID of manager? ",
-      name: "managerId",
-      validate: (answer) => {
-        if (answer !== isNaN(answer)) {
-          return true;
-        }
-        return "Please enter a valid number";
+      {
+        type: "input",
+        message: "ID of manager? ",
+        name: "managerId",
+        validate: (answer) => {
+          if (answer !== isNaN(answer)) {
+            return true;
+          }
+          return "Please enter a valid number";
+        },
       },
-    },
 
-    {
-      type: "input",
-      message: "Email of manager? ",
-      name: "managerEmail",
-    },
-    {
-      type: "input",
-      message: "What is thier office number? ",
-      name: "officeNumber",
-    },
-  ]);
+      {
+        type: "input",
+        message: "Email of manager? ",
+        name: "managerEmail",
+      },
+      {
+        type: "input",
+        message: "What is thier office number? ",
+        name: "officeNumber",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.managerName,
+        answers.managerId,
+        answers.managerEmail,
+        answers.officeNumber
+      );
+      Team.push(manager);
+      start();
+    });
 }
 
 // prompts that run when add Engineer is selected
 function addEngineer() {
-  inquirer.prompt([
-    {
-      type: "input",
-      message: "What is their name? ",
-      name: "engineerName",
-    },
-    {
-      type: "input",
-      message: "What the ID of the engineer? ",
-      name: "engineerId",
-    },
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is their name? ",
+        name: "engineerName",
+      },
+      {
+        type: "input",
+        message: "What the ID of the engineer? ",
+        name: "engineerId",
+      },
 
-    {
-      type: "input",
-      message: "Email of engineer? ",
-      name: "engineerEmail",
-    },
-    {
-      type: "input",
-      message: "Github username of engineer? ",
-      name: "Github",
-    },
-  ]);
+      {
+        type: "input",
+        message: "Email of engineer? ",
+        name: "engineerEmail",
+      },
+      {
+        type: "input",
+        message: "Github username of engineer? ",
+        name: "Github",
+      },
+    ])
+    .then((answers) => {
+      const engineer = new Engineer(
+        answers.engineerName,
+        answers.engineerId,
+        answers.engineerEmail,
+        answers.Github
+      );
+      Team.push(engineer);
+
+      start();
+    });
 }
 
 // prompts that run when add Intern is selected
 function addIntern() {
-  inquirer.prompt([
-    {
-      type: "input",
-      message: "name of intern? ",
-      name: "internName",
-    },
-    {
-      type: "input",
-      message: "ID of intern? ",
-      name: "internId",
-    },
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "name of intern? ",
+        name: "internName",
+      },
+      {
+        type: "input",
+        message: "ID of intern? ",
+        name: "internId",
+      },
 
-    {
-      type: "input",
-      message: "Email of intern? ",
-      name: "internEmail",
-    },
-    {
-      type: "input",
-      message: "School of intern? ",
-      name: "school",
-    },
-  ]);
-}
-
-// when a user selects add Manager. the switch method will call this function
-function mangerSwitch() {
-  addManager().then((answers) => {
-    const manager = new Manager(
-      answers.managerName,
-      answers.managerId,
-      answers.managerEmail,
-      answers.officeNumber
-    );
-    Team.push(manager);
-    start();
-  });
-}
-
-// when a user selects add Engineer. the switch method will call this function
-function engineerSwitch() {
-  addEngineer().then((answers) => {
-    const engineer = new Engineer(
-      answers.engineerName,
-      answers.engineerId,
-      answers.engineerEmail,
-      answers.Github
-    );
-    Team.push(engineer);
-
-    start();
-  });
-}
-
-// when a user selects add Intern. the switch method will call this function
-function internSwitch() {
-  addIntern().then((answers) => {
-    const intern = new Intern(
-      answers.internName,
-      answers.internId,
-      answers.internEmail,
-      answers.school
-    );
-    Team.push(intern);
-    start();
-  });
+      {
+        type: "input",
+        message: "Email of intern? ",
+        name: "internEmail",
+      },
+      {
+        type: "input",
+        message: "School of intern? ",
+        name: "school",
+      },
+    ])
+    .then((answers) => {
+      const intern = new Intern(
+        answers.internName,
+        answers.internId,
+        answers.internEmail,
+        answers.school
+      );
+      Team.push(intern);
+      start();
+    });
 }
 
 start();
