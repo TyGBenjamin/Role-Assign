@@ -15,18 +15,18 @@ This application is primarily used to run javascript code from the back-end in o
 
 ## Installation
 
-This Application is primarily used for setting up database and creting routes to add, update, or delete form that same database. in order to test the application, Node JS and NPM packages such as Express, Sequleize, mysql2, would have to be installed. That way the routes can be properly tested.
+In order to test the application adn run it properly, Node JS and NPM packages such as Jest, inquirer, and path, would have to be installed. ALso, Bootstrap and Bootstarp icons would have to be installed as well to get certain esthetic properties to display on the page as well.
 
 ## Preview
 
 A video for previewing the usage of this application can be found in the following link
-[Click Here for Video Walkthrough]()
+[Click Here for Video Walkthrough](https://www.youtube.com/watch?v=-GPDj55uVAY)
 
-![Screenshot of Application]()
+![Screenshot of Application](https://user-images.githubusercontent.com/94323045/160309654-a3dd4c5c-e66b-4d6d-942d-053d72e958ae.jpg)
 
 ## Usage
 
-This application can be used to quickly update names and amounts of Products that a company wants to keep track of for inventory and documentation purposes.
+This application can be used to quickly update names and roles of employees and members. Primarily used for new hires and HR documentation.
 
 ## User Story
 

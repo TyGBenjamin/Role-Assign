@@ -10,7 +10,6 @@ const Intern = require("./lib/intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const jest = require("jest");
 
 // setting paths for data reference
 
@@ -39,11 +38,11 @@ function start() {
     } else if (answer.addMember === false) {
       if (!fs.existsSync(DIST_DIR)) {
         fs.mkdirSync(DIST_DIR);
-        fs.writeFileSync(distPath, render(Team), "utf-8");
-        process.exit(0);
       }
+      fs.writeFileSync(distPath, render(Team), "utf-8");
+      process.exit(0);
     } else {
-      fs.writeFileSync(distPath, render(teamMembers), "utf-8");
+      fs.writeFileSync(distPath, render(Team), "utf-8");
       process.exit(0);
     }
   });
